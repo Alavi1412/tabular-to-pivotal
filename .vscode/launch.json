@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run tabular_to_pivotal",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/tabular_to_pivotal/__init__.py",
+      "args": ["input.csv", "output.csv"],
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  ]
+}
