@@ -56,3 +56,17 @@ pip install -e .
 ```
 
 The repository contains `launch.json` and `settings.json` files for Visual Studio Code. These files are used to configure the debugger for the package. To use the debugger, you need to install the Python extension in Visual Studio Code. Upon installation, you can run the debugger by putting your input CSV file with the name of `input.csv` in the root directory of the package and pressing `F5`. The debugger will run the code and stop at the breakpoints set in the code.
+
+
+## Broken Data Handling
+
+In this project, it is tried to recover broken data as much as possible. The following are the ways in which broken data is handled. If the data is not recoverable, the program will skip the row with a warning message. The scenarios are obtained by doing a manual analysis of the data to find the common patterns in the broken data.
+
+- If a row has more columns than the header (5), the line will be split into multiple rows before trying to load the data.
+- If all of the data is available but the shorthand is missing, the shorthand will be generated from the start and end time.
+- If all of the data is available but the start time or end time is missing, the start time will be generated from the shorthand and end time.
+- If the publication date is incorrect and not aligned with the previous and next rows, the publication date will be generated from the previous and next rows if both are the same (This feature can be used by the method `enforce_publication_date_order` in the data model).
+- Otherwise, the row will be skipped with a warning message. This includes cases like:
+  - Missing rate
+  - Missing both start/end time and shorthand
+  - Missing publication date

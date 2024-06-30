@@ -50,3 +50,16 @@ class LoadedData(BaseModel):
 
     def get_sorted_shorthands(self):
         return sort_shorthands(self.shorthands)
+
+    def enforce_publication_date_order(self):
+        wrong_dated_quote_indices = []
+        for index, quote in enumerate(self.quotes[1:-1], start=1):
+            if not (
+                quote.publication_date >= self.quotes[index - 1].publication_date
+                and quote.publication_date <= self.quotes[index + 1].publication_date
+            ):
+                wrong_dated_quote_indices.append(index)
+
+        for index in wrong_dated_quote_indices:
+            if self.quotes[index - 1].publication_date == self.quotes[index + 1].publication_date:
+                self.quotes[index].publication_date = self.quotes[index - 1].publication_date
